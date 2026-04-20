@@ -154,6 +154,28 @@
       margin-bottom: 26px;
     }
 
+    .config-box,
+    .status-box {
+      background: rgba(255,255,255,0.58);
+      border: 1px solid rgba(33, 78, 75, 0.12);
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 24px rgba(33, 78, 75, 0.06);
+    }
+
+    .config-box p,
+    .status-box p {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #295650;
+    }
+
+    .config-box strong,
+    .status-box strong {
+      color: #1b4844;
+    }
+
     .type-switch {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -296,6 +318,8 @@
       margin-top: 28px;
       display: flex;
       justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
     button {
@@ -316,12 +340,26 @@
       background: #224f4b;
     }
 
+    button.secondary {
+      background: #ffffff;
+      color: #275b56;
+      border: 1px solid rgba(39, 91, 86, 0.18);
+    }
+
     .footer-note {
       text-align: right;
       margin-top: 14px;
       color: #2d5f5a;
       opacity: 0.8;
       font-size: 14px;
+    }
+
+    .success {
+      color: #0d6b43;
+    }
+
+    .error {
+      color: #a22d2d;
     }
 
     @media (max-width: 768px) {
@@ -356,6 +394,6 @@
 
       button {
         width: 100%;
-        max-width: 240px;
+        max-width: 260px;
       }
     }

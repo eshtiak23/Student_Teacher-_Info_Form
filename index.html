@@ -4,8 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Personal Information Form</title>
-  <link rel="stylesheet" href="style.css" />
- 
+ <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="page">
@@ -14,6 +13,15 @@
 
       <div class="section-title">General Info</div>
       <hr class="section-line" />
+
+      <div class="config-box">
+        <p><strong>Setup:</strong> Put your Supabase <strong>Project URL</strong> and <strong>Publishable / Anon Key</strong> inside the JavaScript section before using the form.</p>
+        <p><strong>Storage bucket:</strong> create a bucket named <strong>profile-photos</strong>.</p>
+      </div>
+
+      <div id="statusBox" class="status-box hidden">
+        <p id="statusText">Ready</p>
+      </div>
 
       <div class="type-switch">
         <label class="type-option active" id="studentOption">
@@ -32,12 +40,12 @@
         <div id="studentFields" class="form-grid">
           <div class="field">
             <label for="studentRoll">Student Roll</label>
-            <input type="text" id="studentRoll" placeholder="Enter student roll" />
+            <input type="text" id="studentRoll" placeholder="Enter student roll" required />
           </div>
 
           <div class="field">
             <label for="studentName">Full Name</label>
-            <input type="text" id="studentName" placeholder="Enter full name" />
+            <input type="text" id="studentName" placeholder="Enter full name" required />
           </div>
 
           <div class="field-full">
@@ -48,14 +56,29 @@
             </div>
           </div>
 
-          <div class="field">
+          <!-- <div class="field">
             <label for="studentDepartment">Department</label>
-            <input type="text" id="studentDepartment" placeholder="Enter department" value="CST" />
+            <input type="text" id="studentDepartment" placeholder="Enter department" value="CST" required />
+          </div> -->
+
+          <div class="field">
+            <label for="studentSemester">Department</label>
+            <select id="studentSemester" required>
+              <option value="">Select department</option>
+              <option>CST</option>
+              <option>ET</option>
+              <option>MT</option>
+              <option>CT</option>
+              <option>EMT</option>
+              <option>PT</option>
+              <option>MeC</option>
+              <option>Other</option>
+            </select>
           </div>
 
           <div class="field">
             <label for="studentSemester">Semester</label>
-            <select id="studentSemester">
+            <select id="studentSemester" required>
               <option value="">Select semester</option>
               <option>1st</option>
               <option>2nd</option>
@@ -68,9 +91,11 @@
             </select>
           </div>
 
+
+
           <div class="field">
             <label for="studentShift">Shift</label>
-            <select id="studentShift">
+            <select id="studentShift" required>
               <option value="">Select shift</option>
               <option>Day</option>
               <option>Morning</option>
@@ -79,7 +104,7 @@
 
           <div class="field">
             <label for="studentSession">Session</label>
-            <select id="studentSession">
+            <select id="studentSession" required>
               <option value="">Select session</option>
               <option>21-22</option>
               <option>22-23</option>
@@ -90,22 +115,22 @@
 
           <div class="field">
             <label for="studentPhone">Phone Number</label>
-            <input type="tel" id="studentPhone" placeholder="Enter phone number" />
+            <input type="tel" id="studentPhone" placeholder="Enter phone number" required />
           </div>
 
           <div class="field">
             <label for="studentEmail">Email</label>
-            <input type="email" id="studentEmail" placeholder="Enter email address" />
+            <input type="email" id="studentEmail" placeholder="Enter email address" required />
           </div>
 
           <div class="field-full">
             <label for="studentAddress">Address</label>
-            <textarea id="studentAddress" placeholder="Enter address"></textarea>
+            <textarea id="studentAddress" placeholder="Enter address" required></textarea>
           </div>
 
           <div class="field">
             <label for="studentBlood">Blood Group</label>
-            <select id="studentBlood">
+            <select id="studentBlood" required>
               <option value="">Select blood group</option>
               <option>A+</option>
               <option>A-</option>
@@ -120,17 +145,17 @@
 
           <div class="field">
             <label for="studentDob">Date Of Birth</label>
-            <input type="date" id="studentDob" />
+            <input type="date" id="studentDob" required />
           </div>
 
           <div class="field">
             <label for="guardianName">Guardian Name</label>
-            <input type="text" id="guardianName" placeholder="Enter guardian name" />
+            <input type="text" id="guardianName" placeholder="Enter guardian name" required />
           </div>
 
           <div class="field">
             <label for="guardianPhone">Guardian Phone</label>
-            <input type="tel" id="guardianPhone" placeholder="Enter guardian phone" />
+            <input type="tel" id="guardianPhone" placeholder="Enter guardian phone" required />
           </div>
 
           <div class="field-full">
@@ -234,10 +259,11 @@
         </div>
 
         <div class="actions">
-          <button type="submit">Next</button>
+          <button type="submit">Submit</button>
+          <button type="button" class="secondary" id="resetBtn">Reset</button>
         </div>
 
-        <div class="footer-note">1/5</div>
+        <div class="footer-note">Supabase Connected Form</div>
       </form>
     </div>
 
@@ -251,13 +277,38 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+    const SUPABASE_KEY = 'YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY';
+    const PHOTO_BUCKET = 'profile-photos';
+
+    let supabase = null;
+
+    if (
+      SUPABASE_URL &&
+      SUPABASE_KEY &&
+      SUPABASE_URL !== 'YOUR_SUPABASE_URL' &&
+      SUPABASE_KEY !== 'YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY'
+    ) {
+      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    }
+
     const studentOption = document.getElementById('studentOption');
     const teacherOption = document.getElementById('teacherOption');
     const studentFields = document.getElementById('studentFields');
     const teacherFields = document.getElementById('teacherFields');
     const radios = document.querySelectorAll('input[name="personType"]');
     const form = document.getElementById('infoForm');
+    const resetBtn = document.getElementById('resetBtn');
+    const statusBox = document.getElementById('statusBox');
+    const statusText = document.getElementById('statusText');
+
+    function showStatus(message, type = '') {
+      statusBox.classList.remove('hidden');
+      statusText.textContent = message;
+      statusText.className = type;
+    }
 
     function toggleForm(type) {
       if (type === 'student') {
@@ -273,18 +324,140 @@
       }
     }
 
+    function setTeacherRequiredState(isTeacher) {
+      const teacherInputs = [
+        document.getElementById('teacherName'),
+        document.getElementById('teacherPosition'),
+        document.getElementById('teacherBlood'),
+        document.getElementById('teacherShift'),
+        document.getElementById('teacherAddress'),
+        document.getElementById('teacherPhone')
+      ];
+
+      teacherInputs.forEach((field) => {
+        field.required = isTeacher;
+      });
+    }
+
     radios.forEach((radio) => {
       radio.addEventListener('change', function () {
+        const isTeacher = this.value === 'teacher';
         toggleForm(this.value);
+        setTeacherRequiredState(isTeacher);
       });
     });
 
-    form.addEventListener('submit', function (e) {
+    setTeacherRequiredState(false);
+
+    resetBtn.addEventListener('click', () => {
+      form.reset();
+      toggleForm('student');
+      document.querySelector('input[name="personType"][value="student"]').checked = true;
+      setTeacherRequiredState(false);
+      statusBox.classList.add('hidden');
+    });
+
+    async function uploadPhoto(file, folderName) {
+      if (!file) return null;
+
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${folderName}/${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from(PHOTO_BUCKET)
+        .upload(fileName, file);
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      const { data } = supabase.storage.from(PHOTO_BUCKET).getPublicUrl(fileName);
+      return data.publicUrl;
+    }
+
+    async function saveStudent() {
+      const studentPhotoFile = document.getElementById('studentPhoto').files[0];
+      const photoUrl = await uploadPhoto(studentPhotoFile, 'students');
+
+      const studentData = {
+        'Student Roll': document.getElementById('studentRoll').value.trim(),
+        'Full Name': document.getElementById('studentName').value.trim(),
+        'Gender': document.querySelector('input[name="studentGender"]:checked')?.value || null,
+        'Department': document.getElementById('studentDepartment').value.trim(),
+        'Semester': document.getElementById('studentSemester').value,
+        'Shift': document.getElementById('studentShift').value,
+        'Session': document.getElementById('studentSession').value,
+        'Phone Number': document.getElementById('studentPhone').value.trim(),
+        'Email': document.getElementById('studentEmail').value.trim(),
+        'Address': document.getElementById('studentAddress').value.trim(),
+        'Blood Group': document.getElementById('studentBlood').value,
+        'Date Of Birth': document.getElementById('studentDob').value,
+        'Guardian Name': document.getElementById('guardianName').value.trim(),
+        'Guardian Phone': document.getElementById('guardianPhone').value.trim(),
+        'Photo URL': photoUrl || '#',
+        'Facebook Link': document.getElementById('studentFacebook').value.trim() || null,
+        'LinkedIn Link': document.getElementById('studentLinkedin').value.trim() || null,
+        'Instagram Link': document.getElementById('studentInstagram').value.trim() || null
+      };
+
+      const { error } = await supabase.from('students').insert([studentData]);
+
+      if (error) {
+        throw error;
+      }
+    }
+
+    async function saveTeacher() {
+      const teacherPhotoFile = document.getElementById('teacherPhoto').files[0];
+      const photoUrl = await uploadPhoto(teacherPhotoFile, 'teachers');
+
+      const teacherData = {
+        'Phone Number': document.getElementById('teacherPhone').value.trim(),
+        'Name': document.getElementById('teacherName').value.trim(),
+        'Position': document.getElementById('teacherPosition').value,
+        'Gender': document.querySelector('input[name="teacherGender"]:checked')?.value || null,
+        'Blood Group': document.getElementById('teacherBlood').value,
+        'Shift': document.getElementById('teacherShift').value,
+        'Address': document.getElementById('teacherAddress').value.trim(),
+        'Photo URL': photoUrl || '#',
+        'Facebook Link': document.getElementById('teacherFacebook').value.trim() || null,
+        'LinkedIn Link': document.getElementById('teacherLinkedin').value.trim() || null,
+        'Instagram Link': document.getElementById('teacherInstagram').value.trim() || null
+      };
+
+      const { error } = await supabase.from('teachers').insert([teacherData]);
+
+      if (error) {
+        throw error;
+      }
+    }
+
+    form.addEventListener('submit', async function (e) {
       e.preventDefault();
+
+      if (!supabase) {
+        showStatus('Add your Supabase URL and key first.', 'error');
+        return;
+      }
+
       const selectedType = document.querySelector('input[name="personType"]:checked').value;
-      alert(selectedType === 'student'
-        ? 'Updated student form is ready.'
-        : 'Updated teacher form is ready.');
+
+      try {
+        showStatus('Submitting form data...', '');
+
+        if (selectedType === 'student') {
+          await saveStudent();
+          showStatus('Student information saved successfully.', 'success');
+        } else {
+          await saveTeacher();
+          showStatus('Teacher information saved successfully.', 'success');
+        }
+
+        form.reset();
+        toggleForm(selectedType);
+      } catch (error) {
+        showStatus(error.message || 'Something went wrong while saving data.', 'error');
+      }
     });
   </script>
 </body>
