@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Personal Information Form</title>
- <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="page">
@@ -13,11 +13,6 @@
 
       <div class="section-title">General Info</div>
       <hr class="section-line" />
-
-      <div class="config-box">
-        <p><strong>Setup:</strong> Put your Supabase <strong>Project URL</strong> and <strong>Publishable / Anon Key</strong> inside the JavaScript section before using the form.</p>
-        <p><strong>Storage bucket:</strong> create a bucket named <strong>profile-photos</strong>.</p>
-      </div>
 
       <div id="statusBox" class="status-box hidden">
         <p id="statusText">Ready</p>
@@ -29,6 +24,7 @@
           <span class="type-icon">🎓</span>
           <span>Student Registration</span>
         </label>
+
         <label class="type-option" id="teacherOption">
           <input type="radio" name="personType" value="teacher" />
           <span class="type-icon">👨‍🏫</span>
@@ -36,7 +32,7 @@
         </label>
       </div>
 
-      <form id="infoForm">
+      <form id="infoForm" novalidate>
         <div id="studentFields" class="form-grid">
           <div class="field">
             <label for="studentRoll">Student Roll</label>
@@ -51,19 +47,14 @@
           <div class="field-full">
             <label>Gender</label>
             <div class="choice-group">
-              <label class="choice-box"><input type="radio" name="studentGender" value="Male" /> Male</label>
-              <label class="choice-box"><input type="radio" name="studentGender" value="Female" /> Female</label>
+              <label class="choice-box"><input type="radio" name="studentGender" value="Male" required /> Male</label>
+              <label class="choice-box"><input type="radio" name="studentGender" value="Female" required /> Female</label>
             </div>
           </div>
 
-          <!-- <div class="field">
-            <label for="studentDepartment">Department</label>
-            <input type="text" id="studentDepartment" placeholder="Enter department" value="CST" required />
-          </div> -->
-
           <div class="field">
-            <label for="studentSemester">Department</label>
-            <select id="studentSemester" required>
+            <label for="studentDepartment">Department</label>
+            <select id="studentDepartment" required>
               <option value="">Select department</option>
               <option>CST</option>
               <option>ET</option>
@@ -90,8 +81,6 @@
               <option>8th</option>
             </select>
           </div>
-
-
 
           <div class="field">
             <label for="studentShift">Shift</label>
@@ -172,11 +161,6 @@
             <label for="studentLinkedin">LinkedIn Link <small>(Optional)</small></label>
             <input type="url" id="studentLinkedin" placeholder="https://linkedin.com/in/..." />
           </div>
-
-          <div class="field-full">
-            <label for="studentInstagram">Instagram Link <small>(Optional)</small></label>
-            <input type="url" id="studentInstagram" placeholder="https://instagram.com/..." />
-          </div>
         </div>
 
         <div id="teacherFields" class="form-grid hidden">
@@ -251,11 +235,6 @@
             <label for="teacherLinkedin">LinkedIn Link <small>(Optional)</small></label>
             <input type="url" id="teacherLinkedin" placeholder="https://linkedin.com/in/..." />
           </div>
-
-          <div class="field-full">
-            <label for="teacherInstagram">Instagram Link <small>(Optional)</small></label>
-            <input type="url" id="teacherInstagram" placeholder="https://instagram.com/..." />
-          </div>
         </div>
 
         <div class="actions">
@@ -279,99 +258,143 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-    const SUPABASE_KEY = 'YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY';
-    const PHOTO_BUCKET = 'profile-photos';
+    const SUPABASE_URL = 'https://cdeulhheleboruiffbtg.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNkZXVsaGhlbGVib3J1aWZmYnRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNzc3MTcsImV4cCI6MjA5MTk1MzcxN30.5_dNfxHPSKP86kYXQLmTmcjQu_YQT2zu9ScLJ_Lwn5E';
+    const PHOTO_BUCKET = 'student-teacher-photos';
 
-    let supabase = null;
-
-    if (
-      SUPABASE_URL &&
-      SUPABASE_KEY &&
-      SUPABASE_URL !== 'YOUR_SUPABASE_URL' &&
-      SUPABASE_KEY !== 'YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY'
-    ) {
-      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    }
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     const studentOption = document.getElementById('studentOption');
     const teacherOption = document.getElementById('teacherOption');
+    const studentRadio = document.querySelector('input[name="personType"][value="student"]');
+    const teacherRadio = document.querySelector('input[name="personType"][value="teacher"]');
     const studentFields = document.getElementById('studentFields');
     const teacherFields = document.getElementById('teacherFields');
-    const radios = document.querySelectorAll('input[name="personType"]');
     const form = document.getElementById('infoForm');
     const resetBtn = document.getElementById('resetBtn');
     const statusBox = document.getElementById('statusBox');
     const statusText = document.getElementById('statusText');
 
+    const studentRequiredFields = [
+      document.getElementById('studentRoll'),
+      document.getElementById('studentName'),
+      document.getElementById('studentDepartment'),
+      document.getElementById('studentSemester'),
+      document.getElementById('studentShift'),
+      document.getElementById('studentSession'),
+      document.getElementById('studentPhone'),
+      document.getElementById('studentEmail'),
+      document.getElementById('studentAddress'),
+      document.getElementById('studentBlood'),
+      document.getElementById('studentDob'),
+      document.getElementById('guardianName'),
+      document.getElementById('guardianPhone')
+    ];
+
+    const teacherRequiredFields = [
+      document.getElementById('teacherName'),
+      document.getElementById('teacherPosition'),
+      document.getElementById('teacherBlood'),
+      document.getElementById('teacherShift'),
+      document.getElementById('teacherAddress'),
+      document.getElementById('teacherPhone')
+    ];
+
+    const studentGenderInputs = document.querySelectorAll('input[name="studentGender"]');
+    const teacherGenderInputs = document.querySelectorAll('input[name="teacherGender"]');
+
     function showStatus(message, type = '') {
       statusBox.classList.remove('hidden');
       statusText.textContent = message;
       statusText.className = type;
+      console.log(message);
+    }
+
+    function setRequired(fields, shouldRequire) {
+      fields.forEach((field) => {
+        if (field) {
+          field.required = shouldRequire;
+        }
+      });
+    }
+
+    function setGenderRequired(inputs, shouldRequire) {
+      inputs.forEach((input) => {
+        input.required = shouldRequire;
+      });
     }
 
     function toggleForm(type) {
-      if (type === 'student') {
-        studentFields.classList.remove('hidden');
-        teacherFields.classList.add('hidden');
-        studentOption.classList.add('active');
-        teacherOption.classList.remove('active');
-      } else {
+      if (type === 'teacher') {
         teacherFields.classList.remove('hidden');
         studentFields.classList.add('hidden');
         teacherOption.classList.add('active');
         studentOption.classList.remove('active');
+        teacherRadio.checked = true;
+
+        setRequired(studentRequiredFields, false);
+        setGenderRequired(studentGenderInputs, false);
+        setRequired(teacherRequiredFields, true);
+        setGenderRequired(teacherGenderInputs, true);
+      } else {
+        studentFields.classList.remove('hidden');
+        teacherFields.classList.add('hidden');
+        studentOption.classList.add('active');
+        teacherOption.classList.remove('active');
+        studentRadio.checked = true;
+
+        setRequired(studentRequiredFields, true);
+        setGenderRequired(studentGenderInputs, true);
+        setRequired(teacherRequiredFields, false);
+        setGenderRequired(teacherGenderInputs, false);
       }
     }
 
-    function setTeacherRequiredState(isTeacher) {
-      const teacherInputs = [
-        document.getElementById('teacherName'),
-        document.getElementById('teacherPosition'),
-        document.getElementById('teacherBlood'),
-        document.getElementById('teacherShift'),
-        document.getElementById('teacherAddress'),
-        document.getElementById('teacherPhone')
-      ];
+    studentOption.addEventListener('click', function () {
+      toggleForm('student');
+    });
 
-      teacherInputs.forEach((field) => {
-        field.required = isTeacher;
-      });
+    teacherOption.addEventListener('click', function () {
+      toggleForm('teacher');
+    });
+
+    studentRadio.addEventListener('change', function () {
+      toggleForm('student');
+    });
+
+    teacherRadio.addEventListener('change', function () {
+      toggleForm('teacher');
+    });
+
+    function getSelectedRadioValue(name) {
+      const selected = document.querySelector(`input[name="${name}"]:checked`);
+      return selected ? selected.value : null;
     }
 
-    radios.forEach((radio) => {
-      radio.addEventListener('change', function () {
-        const isTeacher = this.value === 'teacher';
-        toggleForm(this.value);
-        setTeacherRequiredState(isTeacher);
-      });
-    });
-
-    setTeacherRequiredState(false);
-
-    resetBtn.addEventListener('click', () => {
+    function resetToStudentForm() {
       form.reset();
       toggleForm('student');
-      document.querySelector('input[name="personType"][value="student"]').checked = true;
-      setTeacherRequiredState(false);
       statusBox.classList.add('hidden');
-    });
+    }
+
+    resetBtn.addEventListener('click', resetToStudentForm);
 
     async function uploadPhoto(file, folderName) {
-      if (!file) return null;
+      if (!file) return '#';
 
       const fileExt = file.name.split('.').pop();
       const fileName = `${folderName}/${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
 
-      const { error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabaseClient.storage
         .from(PHOTO_BUCKET)
         .upload(fileName, file);
 
       if (uploadError) {
+        console.error('Upload Error:', uploadError);
         throw uploadError;
       }
 
-      const { data } = supabase.storage.from(PHOTO_BUCKET).getPublicUrl(fileName);
+      const { data } = supabaseClient.storage.from(PHOTO_BUCKET).getPublicUrl(fileName);
       return data.publicUrl;
     }
 
@@ -382,8 +405,8 @@
       const studentData = {
         'Student Roll': document.getElementById('studentRoll').value.trim(),
         'Full Name': document.getElementById('studentName').value.trim(),
-        'Gender': document.querySelector('input[name="studentGender"]:checked')?.value || null,
-        'Department': document.getElementById('studentDepartment').value.trim(),
+        'Gender': getSelectedRadioValue('studentGender'),
+        'Department': document.getElementById('studentDepartment').value,
         'Semester': document.getElementById('studentSemester').value,
         'Shift': document.getElementById('studentShift').value,
         'Session': document.getElementById('studentSession').value,
@@ -394,15 +417,16 @@
         'Date Of Birth': document.getElementById('studentDob').value,
         'Guardian Name': document.getElementById('guardianName').value.trim(),
         'Guardian Phone': document.getElementById('guardianPhone').value.trim(),
-        'Photo URL': photoUrl || '#',
+        'Photo URL': photoUrl,
         'Facebook Link': document.getElementById('studentFacebook').value.trim() || null,
-        'LinkedIn Link': document.getElementById('studentLinkedin').value.trim() || null,
-        'Instagram Link': document.getElementById('studentInstagram').value.trim() || null
+        'LinkedIn Link': document.getElementById('studentLinkedin').value.trim() || null
       };
 
-      const { error } = await supabase.from('students').insert([studentData]);
+      console.log('Student Data:', studentData);
 
+      const { error } = await supabaseClient.from('students').insert([studentData]);
       if (error) {
+        console.error('Student Insert Error:', error);
         throw error;
       }
     }
@@ -415,19 +439,20 @@
         'Phone Number': document.getElementById('teacherPhone').value.trim(),
         'Name': document.getElementById('teacherName').value.trim(),
         'Position': document.getElementById('teacherPosition').value,
-        'Gender': document.querySelector('input[name="teacherGender"]:checked')?.value || null,
+        'Gender': getSelectedRadioValue('teacherGender'),
         'Blood Group': document.getElementById('teacherBlood').value,
         'Shift': document.getElementById('teacherShift').value,
         'Address': document.getElementById('teacherAddress').value.trim(),
-        'Photo URL': photoUrl || '#',
+        'Photo URL': photoUrl,
         'Facebook Link': document.getElementById('teacherFacebook').value.trim() || null,
-        'LinkedIn Link': document.getElementById('teacherLinkedin').value.trim() || null,
-        'Instagram Link': document.getElementById('teacherInstagram').value.trim() || null
+        'LinkedIn Link': document.getElementById('teacherLinkedin').value.trim() || null
       };
 
-      const { error } = await supabase.from('teachers').insert([teacherData]);
+      console.log('Teacher Data:', teacherData);
 
+      const { error } = await supabaseClient.from('teachers').insert([teacherData]);
       if (error) {
+        console.error('Teacher Insert Error:', error);
         throw error;
       }
     }
@@ -435,12 +460,13 @@
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
 
-      if (!supabase) {
-        showStatus('Add your Supabase URL and key first.', 'error');
+      const selectedType = document.querySelector('input[name="personType"]:checked').value;
+      const isValid = form.reportValidity();
+
+      if (!isValid) {
+        showStatus('Please fill all required fields correctly.', 'error');
         return;
       }
-
-      const selectedType = document.querySelector('input[name="personType"]:checked').value;
 
       try {
         showStatus('Submitting form data...', '');
@@ -453,12 +479,17 @@
           showStatus('Teacher information saved successfully.', 'success');
         }
 
-        form.reset();
-        toggleForm(selectedType);
+        setTimeout(() => {
+          resetToStudentForm();
+        }, 1200);
       } catch (error) {
+        console.error('Submit Error:', error);
         showStatus(error.message || 'Something went wrong while saving data.', 'error');
+        alert(error.message || 'Something went wrong while saving data.');
       }
     });
+
+    toggleForm('student');
   </script>
 </body>
 </html>
