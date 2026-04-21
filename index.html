@@ -14,29 +14,30 @@
       <div class="section-title">General Info</div>
       <hr class="section-line" />
 
-      <div id="statusBox" class="status-box hidden">
-        <p id="statusText">Ready</p>
-      </div>
+      <div id="formContent">
+        <div id="statusBox" class="status-box hidden">
+          <p id="statusText">Ready</p>
+        </div>
 
-      <div class="type-switch">
-        <label class="type-option active" id="studentOption">
-          <input type="radio" name="personType" value="student" checked />
-          <span class="type-icon">🎓</span>
-          <span>Student Registration</span>
-        </label>
+        <div class="type-switch">
+          <label class="type-option active" id="studentOption">
+            <input type="radio" name="personType" value="student" checked />
+            <span class="type-icon">🎓</span>
+            <span>Student Registration</span>
+          </label>
 
-        <label class="type-option" id="teacherOption">
-          <input type="radio" name="personType" value="teacher" />
-          <span class="type-icon">👨‍🏫</span>
-          <span>Teacher Registration</span>
-        </label>
-      </div>
+          <label class="type-option" id="teacherOption">
+            <input type="radio" name="personType" value="teacher" />
+            <span class="type-icon">👨‍🏫</span>
+            <span>Teacher Registration</span>
+          </label>
+        </div>
 
-      <form id="infoForm" novalidate>
+        <form id="infoForm" novalidate>
         <div id="studentFields" class="form-grid">
           <div class="field">
             <label for="studentRoll">Student Roll</label>
-            <input type="text" id="studentRoll" placeholder="Enter student roll" required />
+            <input type="text" id="studentRoll" placeholder="Enter student roll" value="721" required />
           </div>
 
           <div class="field">
@@ -114,7 +115,7 @@
 
           <div class="field-full">
             <label for="studentAddress">Address</label>
-            <textarea id="studentAddress" placeholder="Enter address" required></textarea>
+            <textarea id="studentAddress" placeholder="Enter your address" required></textarea>
           </div>
 
           <div class="field">
@@ -143,12 +144,12 @@
           </div>
 
           <div class="field">
-            <label for="guardianPhone">Guardian Phone</label>
+            <label for="guardianPhone">Guardian Phone Number</label>
             <input type="tel" id="guardianPhone" placeholder="Enter guardian phone" required />
           </div>
 
           <div class="field-full">
-            <label for="studentPhoto">Photo Upload</label>
+            <label for="studentPhoto">Upload Your Photo </label>
             <input type="file" id="studentPhoto" accept="image/*" />
           </div>
 
@@ -166,7 +167,7 @@
         <div id="teacherFields" class="form-grid hidden">
           <div class="field">
             <label for="teacherName">Name</label>
-            <input type="text" id="teacherName" placeholder="Enter teacher name" />
+            <input type="text" id="teacherName" placeholder="Your Full Name" />
           </div>
 
           <div class="field">
@@ -175,7 +176,7 @@
               <option value="">Select position</option>
               <option>Instructor</option>
               <option>Junior Instructor</option>
-              <option>Lab Assistant</option>
+              
             </select>
           </div>
 
@@ -213,7 +214,7 @@
 
           <div class="field-full">
             <label for="teacherAddress">Address</label>
-            <textarea id="teacherAddress" placeholder="Enter address"></textarea>
+            <textarea id="teacherAddress" placeholder="Enter Your Address"></textarea>
           </div>
 
           <div class="field">
@@ -242,8 +243,14 @@
           <button type="button" class="secondary" id="resetBtn">Reset</button>
         </div>
 
-        <div class="footer-note">Supabase Connected Form</div>
+        <div class="footer-note">Recheck your information before submitting.</div>
       </form>
+      </div>
+
+      <div id="thankYouBox" class="status-box hidden" style="text-align:center; margin-top:20px;">
+        <h2>✅ Thank You!</h2>
+        <p>Your information has been submitted successfully.</p>
+      </div>
     </div>
 
     <div class="landscape">
@@ -274,6 +281,8 @@
     const resetBtn = document.getElementById('resetBtn');
     const statusBox = document.getElementById('statusBox');
     const statusText = document.getElementById('statusText');
+    const formContent = document.getElementById('formContent');
+    const thankYouBox = document.getElementById('thankYouBox');
 
     const studentRequiredFields = [
       document.getElementById('studentRoll'),
@@ -473,15 +482,14 @@
 
         if (selectedType === 'student') {
           await saveStudent();
-          showStatus('Student information saved successfully.', 'success');
         } else {
           await saveTeacher();
-          showStatus('Teacher information saved successfully.', 'success');
         }
 
-        setTimeout(() => {
-          resetToStudentForm();
-        }, 1200);
+        // Hide full form section and show thank you
+        formContent.style.display = 'none';
+        thankYouBox.classList.remove('hidden');
+
       } catch (error) {
         console.error('Submit Error:', error);
         showStatus(error.message || 'Something went wrong while saving data.', 'error');
