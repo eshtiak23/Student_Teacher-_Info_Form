@@ -34,217 +34,226 @@
         </div>
 
         <form id="infoForm" novalidate>
-        <div id="studentFields" class="form-grid">
-          <div class="field">
-            <label for="studentRoll">Student Roll</label>
-            <input type="text" id="studentRoll" placeholder="Enter student roll" value="721" required />
-          </div>
+          <div id="studentFields" class="form-grid">
+            <div class="field">
+              <label for="studentRoll">Student Roll</label>
+              <input type="text" id="studentRoll" placeholder="Enter student roll" value="721" required />
+            </div>
 
-          <div class="field">
-            <label for="studentName">Full Name</label>
-            <input type="text" id="studentName" placeholder="Enter full name" required />
-          </div>
+            <div class="field">
+              <label for="studentName">Full Name</label>
+              <input type="text" id="studentName" placeholder="Enter full name" required />
+            </div>
 
-          <div class="field-full">
-            <label>Gender</label>
-            <div class="choice-group">
-              <label class="choice-box"><input type="radio" name="studentGender" value="Male" required /> Male</label>
-              <label class="choice-box"><input type="radio" name="studentGender" value="Female" required /> Female</label>
+            <div class="field-full">
+              <label>Gender</label>
+              <div class="choice-group">
+                <label class="choice-box"><input type="radio" name="studentGender" value="Male" required /> Male</label>
+                <label class="choice-box"><input type="radio" name="studentGender" value="Female" required /> Female</label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="studentDepartment">Department</label>
+              <select id="studentDepartment" required>
+                <option value="">Select department</option>
+                <option>CST</option>
+                <option>ET</option>
+                <option>MT</option>
+                <option>CT</option>
+                <option>EMT</option>
+                <option>PT</option>
+                <option>MeC</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="studentSemester">Semester</label>
+              <select id="studentSemester" required>
+                <option value="">Select semester</option>
+                <option>1st</option>
+                <option>2nd</option>
+                <option>3rd</option>
+                <option>4th</option>
+                <option>5th</option>
+                <option>6th</option>
+                <option>7th</option>
+                <option>8th</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="studentShift">Shift</label>
+              <select id="studentShift" required>
+                <option value="">Select shift</option>
+                <option>Day</option>
+                <option>Morning</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="studentSession">Session</label>
+              <select id="studentSession" required>
+                <option value="">Select session</option>
+                <option>21-22</option>
+                <option>22-23</option>
+                <option>23-24</option>
+                <option>25-26</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="studentPhone">Phone Number</label>
+              <input type="tel" id="studentPhone" placeholder="Enter phone number" required />
+            </div>
+
+            <div class="field">
+              <label for="studentEmail">Email</label>
+              <input type="email" id="studentEmail" placeholder="Enter email address" required />
+            </div>
+
+            <div class="field">
+              <label for="studentPassword">Password</label>
+              <input type="password" id="studentPassword" placeholder="Create password" required />
+            </div>
+
+            <div class="field">
+              <label for="studentConfirmPassword">Confirm Password</label>
+              <input type="password" id="studentConfirmPassword" placeholder="Confirm password" required />
+            </div>
+
+            <div class="field-full">
+              <label for="studentAddress">Address</label>
+              <textarea id="studentAddress" placeholder="Enter your address" required></textarea>
+            </div>
+
+            <div class="field">
+              <label for="studentBlood">Blood Group</label>
+              <select id="studentBlood" required>
+                <option value="">Select blood group</option>
+                <option>A+</option>
+                <option>A-</option>
+                <option>B+</option>
+                <option>B-</option>
+                <option>AB+</option>
+                <option>AB-</option>
+                <option>O+</option>
+                <option>O-</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="studentDob">Date Of Birth</label>
+              <input type="date" id="studentDob" required />
+            </div>
+
+            <div class="field">
+              <label for="guardianName">Guardian Name</label>
+              <input type="text" id="guardianName" placeholder="Enter guardian name" required />
+            </div>
+
+            <div class="field">
+              <label for="guardianPhone">Guardian Phone Number</label>
+              <input type="tel" id="guardianPhone" placeholder="Enter guardian phone" required />
+            </div>
+
+            <div class="field-full">
+              <label for="studentPhoto">Upload Your Photo</label>
+              <input type="file" id="studentPhoto" accept="image/*" />
+            </div>
+
+            <div class="field">
+              <label for="studentFacebook">Facebook Link <small>(Optional)</small></label>
+              <input type="url" id="studentFacebook" placeholder="https://facebook.com/..." />
+            </div>
+
+            <div class="field">
+              <label for="studentLinkedin">LinkedIn Link <small>(Optional)</small></label>
+              <input type="url" id="studentLinkedin" placeholder="https://linkedin.com/in/..." />
             </div>
           </div>
 
-          <div class="field">
-            <label for="studentDepartment">Department</label>
-            <select id="studentDepartment" required>
-              <option value="">Select department</option>
-              <option>CST</option>
-              <option>ET</option>
-              <option>MT</option>
-              <option>CT</option>
-              <option>EMT</option>
-              <option>PT</option>
-              <option>MeC</option>
-              <option>Other</option>
-            </select>
-          </div>
+          <div id="teacherFields" class="form-grid hidden">
+            <div class="field">
+              <label for="teacherName">Name</label>
+              <input type="text" id="teacherName" placeholder="Your Full Name" />
+            </div>
 
-          <div class="field">
-            <label for="studentSemester">Semester</label>
-            <select id="studentSemester" required>
-              <option value="">Select semester</option>
-              <option>1st</option>
-              <option>2nd</option>
-              <option>3rd</option>
-              <option>4th</option>
-              <option>5th</option>
-              <option>6th</option>
-              <option>7th</option>
-              <option>8th</option>
-            </select>
-          </div>
+            <div class="field">
+              <label for="teacherPosition">Position</label>
+              <select id="teacherPosition">
+                <option value="">Select position</option>
+                <option>Instructor</option>
+                <option>Junior Instructor</option>
+              </select>
+            </div>
 
-          <div class="field">
-            <label for="studentShift">Shift</label>
-            <select id="studentShift" required>
-              <option value="">Select shift</option>
-              <option>Day</option>
-              <option>Morning</option>
-            </select>
-          </div>
+            <div class="field-full">
+              <label>Gender</label>
+              <div class="choice-group">
+                <label class="choice-box"><input type="radio" name="teacherGender" value="Male" /> Male</label>
+                <label class="choice-box"><input type="radio" name="teacherGender" value="Female" /> Female</label>
+              </div>
+            </div>
 
-          <div class="field">
-            <label for="studentSession">Session</label>
-            <select id="studentSession" required>
-              <option value="">Select session</option>
-              <option>21-22</option>
-              <option>22-23</option>
-              <option>23-24</option>
-              <option>25-26</option>
-            </select>
-          </div>
+            <div class="field">
+              <label for="teacherBlood">Blood Group</label>
+              <select id="teacherBlood">
+                <option value="">Select blood group</option>
+                <option>A+</option>
+                <option>A-</option>
+                <option>B+</option>
+                <option>B-</option>
+                <option>AB+</option>
+                <option>AB-</option>
+                <option>O+</option>
+                <option>O-</option>
+              </select>
+            </div>
 
-          <div class="field">
-            <label for="studentPhone">Phone Number</label>
-            <input type="tel" id="studentPhone" placeholder="Enter phone number" required />
-          </div>
+            <div class="field">
+              <label for="teacherShift">Shift</label>
+              <select id="teacherShift">
+                <option value="">Select shift</option>
+                <option>Day</option>
+                <option>Morning</option>
+              </select>
+            </div>
 
-          <div class="field">
-            <label for="studentEmail">Email</label>
-            <input type="email" id="studentEmail" placeholder="Enter email address" required />
-          </div>
+            <div class="field-full">
+              <label for="teacherAddress">Address</label>
+              <textarea id="teacherAddress" placeholder="Enter Your Address"></textarea>
+            </div>
 
-          <div class="field-full">
-            <label for="studentAddress">Address</label>
-            <textarea id="studentAddress" placeholder="Enter your address" required></textarea>
-          </div>
+            <div class="field">
+              <label for="teacherPhone">Phone Number</label>
+              <input type="tel" id="teacherPhone" placeholder="Enter phone number" />
+            </div>
 
-          <div class="field">
-            <label for="studentBlood">Blood Group</label>
-            <select id="studentBlood" required>
-              <option value="">Select blood group</option>
-              <option>A+</option>
-              <option>A-</option>
-              <option>B+</option>
-              <option>B-</option>
-              <option>AB+</option>
-              <option>AB-</option>
-              <option>O+</option>
-              <option>O-</option>
-            </select>
-          </div>
+            <div class="field-full">
+              <label for="teacherPhoto">Photo Upload</label>
+              <input type="file" id="teacherPhoto" accept="image/*" />
+            </div>
 
-          <div class="field">
-            <label for="studentDob">Date Of Birth</label>
-            <input type="date" id="studentDob" required />
-          </div>
+            <div class="field">
+              <label for="teacherFacebook">Facebook Link <small>(Optional)</small></label>
+              <input type="url" id="teacherFacebook" placeholder="https://facebook.com/..." />
+            </div>
 
-          <div class="field">
-            <label for="guardianName">Guardian Name</label>
-            <input type="text" id="guardianName" placeholder="Enter guardian name" required />
-          </div>
-
-          <div class="field">
-            <label for="guardianPhone">Guardian Phone Number</label>
-            <input type="tel" id="guardianPhone" placeholder="Enter guardian phone" required />
-          </div>
-
-          <div class="field-full">
-            <label for="studentPhoto">Upload Your Photo </label>
-            <input type="file" id="studentPhoto" accept="image/*" />
-          </div>
-
-          <div class="field">
-            <label for="studentFacebook">Facebook Link <small>(Optional)</small></label>
-            <input type="url" id="studentFacebook" placeholder="https://facebook.com/..." />
-          </div>
-
-          <div class="field">
-            <label for="studentLinkedin">LinkedIn Link <small>(Optional)</small></label>
-            <input type="url" id="studentLinkedin" placeholder="https://linkedin.com/in/..." />
-          </div>
-        </div>
-
-        <div id="teacherFields" class="form-grid hidden">
-          <div class="field">
-            <label for="teacherName">Name</label>
-            <input type="text" id="teacherName" placeholder="Your Full Name" />
-          </div>
-
-          <div class="field">
-            <label for="teacherPosition">Position</label>
-            <select id="teacherPosition">
-              <option value="">Select position</option>
-              <option>Instructor</option>
-              <option>Junior Instructor</option>
-              
-            </select>
-          </div>
-
-          <div class="field-full">
-            <label>Gender</label>
-            <div class="choice-group">
-              <label class="choice-box"><input type="radio" name="teacherGender" value="Male" /> Male</label>
-              <label class="choice-box"><input type="radio" name="teacherGender" value="Female" /> Female</label>
+            <div class="field">
+              <label for="teacherLinkedin">LinkedIn Link <small>(Optional)</small></label>
+              <input type="url" id="teacherLinkedin" placeholder="https://linkedin.com/in/..." />
             </div>
           </div>
 
-          <div class="field">
-            <label for="teacherBlood">Blood Group</label>
-            <select id="teacherBlood">
-              <option value="">Select blood group</option>
-              <option>A+</option>
-              <option>A-</option>
-              <option>B+</option>
-              <option>B-</option>
-              <option>AB+</option>
-              <option>AB-</option>
-              <option>O+</option>
-              <option>O-</option>
-            </select>
+          <div class="actions">
+            <button type="submit">Submit</button>
+            <button type="button" class="secondary" id="resetBtn">Reset</button>
           </div>
 
-          <div class="field">
-            <label for="teacherShift">Shift</label>
-            <select id="teacherShift">
-              <option value="">Select shift</option>
-              <option>Day</option>
-              <option>Morning</option>
-            </select>
-          </div>
-
-          <div class="field-full">
-            <label for="teacherAddress">Address</label>
-            <textarea id="teacherAddress" placeholder="Enter Your Address"></textarea>
-          </div>
-
-          <div class="field">
-            <label for="teacherPhone">Phone Number</label>
-            <input type="tel" id="teacherPhone" placeholder="Enter phone number" />
-          </div>
-
-          <div class="field-full">
-            <label for="teacherPhoto">Photo Upload</label>
-            <input type="file" id="teacherPhoto" accept="image/*" />
-          </div>
-
-          <div class="field">
-            <label for="teacherFacebook">Facebook Link <small>(Optional)</small></label>
-            <input type="url" id="teacherFacebook" placeholder="https://facebook.com/..." />
-          </div>
-
-          <div class="field">
-            <label for="teacherLinkedin">LinkedIn Link <small>(Optional)</small></label>
-            <input type="url" id="teacherLinkedin" placeholder="https://linkedin.com/in/..." />
-          </div>
-        </div>
-
-        <div class="actions">
-          <button type="submit">Submit</button>
-          <button type="button" class="secondary" id="resetBtn">Reset</button>
-        </div>
-
-        <div class="footer-note">Recheck your information before submitting.</div>
-      </form>
+          <div class="footer-note">Recheck your information before submitting.</div>
+        </form>
       </div>
 
       <div id="thankYouBox" class="status-box hidden" style="text-align:center; margin-top:20px;">
@@ -293,6 +302,8 @@
       document.getElementById('studentSession'),
       document.getElementById('studentPhone'),
       document.getElementById('studentEmail'),
+      document.getElementById('studentPassword'),
+      document.getElementById('studentConfirmPassword'),
       document.getElementById('studentAddress'),
       document.getElementById('studentBlood'),
       document.getElementById('studentDob'),
@@ -321,9 +332,7 @@
 
     function setRequired(fields, shouldRequire) {
       fields.forEach((field) => {
-        if (field) {
-          field.required = shouldRequire;
-        }
+        if (field) field.required = shouldRequire;
       });
     }
 
@@ -359,21 +368,10 @@
       }
     }
 
-    studentOption.addEventListener('click', function () {
-      toggleForm('student');
-    });
-
-    teacherOption.addEventListener('click', function () {
-      toggleForm('teacher');
-    });
-
-    studentRadio.addEventListener('change', function () {
-      toggleForm('student');
-    });
-
-    teacherRadio.addEventListener('change', function () {
-      toggleForm('teacher');
-    });
+    studentOption.addEventListener('click', () => toggleForm('student'));
+    teacherOption.addEventListener('click', () => toggleForm('teacher'));
+    studentRadio.addEventListener('change', () => toggleForm('student'));
+    teacherRadio.addEventListener('change', () => toggleForm('teacher'));
 
     function getSelectedRadioValue(name) {
       const selected = document.querySelector(`input[name="${name}"]:checked`);
@@ -408,10 +406,37 @@
     }
 
     async function saveStudent() {
+      const studentEmail = document.getElementById('studentEmail').value.trim();
+      const studentPassword = document.getElementById('studentPassword').value;
+      const confirmPassword = document.getElementById('studentConfirmPassword').value;
+
+      if (studentPassword.length < 6) {
+        throw new Error('Password must be at least 6 characters.');
+      }
+
+      if (studentPassword !== confirmPassword) {
+        throw new Error('Passwords do not match.');
+      }
+
+      const { data: authData, error: authError } = await supabaseClient.auth.signUp({
+        email: studentEmail,
+        password: studentPassword
+      });
+
+      if (authError) {
+        console.error('Auth Signup Error:', authError);
+        throw authError;
+      }
+
+      if (!authData.user) {
+        throw new Error('User account could not be created.');
+      }
+
       const studentPhotoFile = document.getElementById('studentPhoto').files[0];
       const photoUrl = await uploadPhoto(studentPhotoFile, 'students');
 
       const studentData = {
+        auth_user_id: authData.user.id,
         'Student Roll': document.getElementById('studentRoll').value.trim(),
         'Full Name': document.getElementById('studentName').value.trim(),
         'Gender': getSelectedRadioValue('studentGender'),
@@ -420,7 +445,7 @@
         'Shift': document.getElementById('studentShift').value,
         'Session': document.getElementById('studentSession').value,
         'Phone Number': document.getElementById('studentPhone').value.trim(),
-        'Email': document.getElementById('studentEmail').value.trim(),
+        'Email': studentEmail,
         'Address': document.getElementById('studentAddress').value.trim(),
         'Blood Group': document.getElementById('studentBlood').value,
         'Date Of Birth': document.getElementById('studentDob').value,
@@ -431,12 +456,11 @@
         'LinkedIn Link': document.getElementById('studentLinkedin').value.trim() || null
       };
 
-      console.log('Student Data:', studentData);
+      const { error: insertError } = await supabaseClient.from('students').insert([studentData]);
 
-      const { error } = await supabaseClient.from('students').insert([studentData]);
-      if (error) {
-        console.error('Student Insert Error:', error);
-        throw error;
+      if (insertError) {
+        console.error('Student Insert Error:', insertError);
+        throw insertError;
       }
     }
 
@@ -456,8 +480,6 @@
         'Facebook Link': document.getElementById('teacherFacebook').value.trim() || null,
         'LinkedIn Link': document.getElementById('teacherLinkedin').value.trim() || null
       };
-
-      console.log('Teacher Data:', teacherData);
 
       const { error } = await supabaseClient.from('teachers').insert([teacherData]);
       if (error) {
@@ -486,10 +508,24 @@
           await saveTeacher();
         }
 
-        // Hide full form section and show thank you
         formContent.style.display = 'none';
         thankYouBox.classList.remove('hidden');
 
+        if (selectedType === 'student') {
+          thankYouBox.innerHTML = `
+            <h2>✅ Account Created!</h2>
+            <p>Your student account has been created successfully.</p>
+            <p style="margin-top:10px;">You can now login using your email and password.</p>
+            <a href="login.html" style="display:inline-block;margin-top:15px;color:#00ffcc;">
+              Go to Login →
+            </a>
+          `;
+        } else {
+          thankYouBox.innerHTML = `
+            <h2>✅ Thank You!</h2>
+            <p>Your teacher information has been submitted successfully.</p>
+          `;
+        }
       } catch (error) {
         console.error('Submit Error:', error);
         showStatus(error.message || 'Something went wrong while saving data.', 'error');
